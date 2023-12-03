@@ -1,0 +1,56 @@
+DECLARE
+   input_num NUMBER := 5; 
+   result_square NUMBER;
+
+   FUNCTION CalculateSquare(INPUT_NUM IN NUMBER) RETURN NUMBER IS
+      OUT_SQUARE NUMBER;
+   BEGIN
+      OUT_SQUARE := INPUT_NUM * INPUT_NUM;
+      RETURN OUT_SQUARE;
+   END CalculateSquare;
+
+BEGIN
+  
+   result_square := CalculateSquare(input_num);
+   DBMS_OUTPUT.PUT_LINE('Square of ' || input_num || ' is ' || result_square);
+END;
+/
+
+
+
+
+CREATE OR REPLACE PROCEDURE FindMaxOfThreeNumbers(
+    num1 IN NUMBER,
+    num2 IN NUMBER,
+    num3 IN NUMBER,
+     max_result OUT NUMBER
+) IS
+BEGIN
+    -- Initialize max_result with the first number
+    max_result := num1;
+
+    -- Check and update the maximum result
+    IF num2 > max_result THEN
+        max_result := num2;
+    END IF;
+
+    IF num3 > max_result THEN
+        max_result := num3;
+    END IF;
+
+ 
+END;
+/
+
+DECLARE
+    number1 NUMBER := 10;
+    number2 NUMBER := 20;
+    number3 NUMBER := 15;
+    max_result NUMBER; -- Declare without initializing
+
+BEGIN
+    FindMaxOfThreeNumbers(number1, number2, number3, max_result);
+
+    DBMS_OUTPUT.PUT_LINE('The maximum of ' || number1 || ', ' || number2 || ', ' || number3 || ' is: ' || max_result);
+END;
+/

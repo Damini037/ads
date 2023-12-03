@@ -1,0 +1,23 @@
+DECLARE
+TYPE NameArray IS TABLE OF VARCHAR2(50) INDEX BY PLS_INTEGER;
+TYPE GradeArray IS TABLE OF VARCHAR2(2) INDEX BY PLS_INTEGER;
+TYPE ClassArray IS TABLE OF VARCHAR2(20) INDEX BY PLS_INTEGER;
+names NameArray;
+grades GradeArray;
+classes ClassArray;
+BEGIN
+names(1) := 'John Doe';
+names(2) := 'Jane Smith';
+names(3) := 'Bob Johnson';
+grades(1) := 'A';
+grades(2) := 'B';
+grades(3) := 'C';
+classes(1) := 'Class 10';
+classes(2) := 'Class 11';
+classes(3) := 'Class 12';
+-- Displaying students' names, grades, and classes
+FOR i IN 1..names.COUNT LOOP
+DBMS_OUTPUT.PUT_LINE('Name: ' || names(i) || ', Grade: ' || grades(i) || ', Class:
+' || classes(i));
+END LOOP;
+END;/

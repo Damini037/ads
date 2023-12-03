@@ -1,0 +1,88 @@
+
+CREATE TABLE Student (
+    IDCardnumber INT PRIMARY KEY,
+    RollNumber INT UNIQUE,
+    Stud_Name VARCHAR(255),
+    Class VARCHAR(10),
+    Branch VARCHAR(50)
+);
+
+-- Create Book Table
+CREATE TABLE Book (
+    BookID INT PRIMARY KEY,
+    Book_Name VARCHAR(255),
+    Author VARCHAR(255),
+    Price DECIMAL(10, 2)
+);
+
+-- Create Issue Table
+CREATE TABLE Issue (
+    IDCardnumber INT,
+    BookID INT,
+    IssueDate DATE,
+    SubmissionDate DATE,
+    PRIMARY KEY (IDCardnumber, BookID),
+    FOREIGN KEY (IDCardnumber) REFERENCES Student(IDCardnumber),
+    FOREIGN KEY (BookID) REFERENCES Book(BookID)
+);
+
+-- Insert values into Student Table
+INSERT INTO Student VALUES
+    (123456789, 101, 'John Doe', '10th', 'Science');
+INSERT INTO Student VALUES
+    (987654321, 202, 'Jane Smith', '12th', 'Arts');
+INSERT INTO Student VALUES
+    (987654320, 203, 'Jane', 'FY', 'CSE');
+
+-- Insert values into Book Table
+INSERT INTO Book VALUES
+    (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 15.99);
+INSERT INTO Book VALUES
+    (2, 'To Kill a Mockingbird', 'Harper Lee', 12.50);
+Insert into Book values(3,'java edition','xyz',22.2);
+
+-- Insert values into Issue Table in Oracle SQL
+INSERT INTO Issue (IDCardnumber, BookID, IssueDate, SubmissionDate) VALUES
+    (123456789, 1, TO_DATE('2023-01-15', 'YYYY-MM-DD'), TO_DATE('2023-02-15', 'YYYY-MM-DD'));
+INSERT INTO Issue (IDCardnumber, BookID, IssueDate, SubmissionDate) VALUES
+    (987654321, 2, TO_DATE('2023-02-01', 'YYYY-MM-DD'), TO_DATE('2023-03-01', 'YYYY-MM-DD'));
+
+
+1.
+
+SELECT COUNT(*) AS TotalStudents
+FROM Student 
+JOIN Issue ON Student.IDCardnumber = Issue.IDCardnumber
+WHERE Student.Branch = 'CSE';
+
+2.
+
+
+SELECT Student.IDCardnumber, Student.RollNumber, Student.Stud_Name
+FROM Student
+LEFT JOIN Issue ON Student.IDCardnumber = Issue.IDCardnumber
+WHERE Issue.IDCardnumber IS NULL;
+
+3.
+
+SELECT BookID, Book_Name, Author, Price
+FROM Book
+WHERE Price = (
+    SELECT MAX(Price)
+    FROM Book
+    WHERE Price < (SELECT MAX(Price) FROM Book)
+);
+
+4.
+
+SELECT S.Branch, COUNT(DISTINCT I.IDCardnumber) AS StudentsCount
+FROM Student S
+LEFT JOIN Issue I ON S.IDCardnumber = I.IDCardnumber
+GROUP BY S.Branch;
+
+5.
+
+SELECT B.Book_Name, S.Stud_Name, I.IssueDate, I.SubmissionDate
+FROM Issue I
+JOIN Student S ON I.IDCardnumber = S.IDCardnumber
+JOIN Book B ON I.BookID = B.BookID;

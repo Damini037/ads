@@ -1,0 +1,19 @@
+DECLARE
+N NUMBER := 10; 
+sum_resul NUMBER:=0;
+BEGIN
+FOR i IN 1..N LOOP
+sum_result := sum_result + i;
+END LOOP;
+DBMS_OUTPUT.PUT_LINE('Sum of first ' || N || ' numbers is: ' ||  sum_result);
+END;/
+
+DECLARE
+num NUMBER := 5; -- You can replace 5 with any desired number
+factorial_result NUMBER := 1;
+BEGIN
+FOR i IN 1..num LOOP
+factorial_result := factorial_result * i;
+END LOOP;
+DBMS_OUTPUT.PUT_LINE('Factorial of ' || num || ' is: ' || factorial_result);
+END;/

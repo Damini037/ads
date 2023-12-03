@@ -1,0 +1,33 @@
+
+CREATE TYPE Rectangle AS OBJECT (
+length NUMBER,
+width NUMBER,
+MEMBER FUNCTION Area RETURN NUMBER,
+MEMBER FUNCTION Perimeter RETURN NUMBER
+);
+
+
+
+
+
+CREATE TYPE BODY Rectangle AS
+MEMBER FUNCTION Area RETURN NUMBER IS
+BEGIN
+RETURN length * width;
+END;
+MEMBER FUNCTION Perimeter RETURN NUMBER IS
+BEGIN
+RETURN 2 * (length + width);
+END;
+END;
+
+
+
+
+
+DECLARE
+rect Rectangle := Rectangle(5, 10);
+BEGIN
+DBMS_OUTPUT.PUT_LINE('Area: ' || rect.Area);
+DBMS_OUTPUT.PUT_LINE('Perimeter: ' || rect.Perimeter);
+END;

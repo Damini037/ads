@@ -1,0 +1,16 @@
+DECLARE
+choice NUMBER := 2;
+radius NUMBER := 5;
+
+area_result NUMBER;
+BEGIN
+CASE choice
+WHEN 1 THEN
+area_result := 3.14 * radius * radius; -- Area of Circle
+WHEN 2 THEN
+area_result := 0.5 * radius * radius; -- Area of Triangle
+ELSE
+area_result := 0; -- Default case or error handling
+END CASE;
+DBMS_OUTPUT.PUT_LINE('Area is: ' || area_result);
+END;/

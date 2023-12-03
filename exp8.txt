@@ -1,0 +1,72 @@
+-- Create Location Table
+CREATE TABLE Location (
+    LID NUMBER PRIMARY KEY,
+    City VARCHAR2(50),
+    State VARCHAR2(50),
+    Country VARCHAR2(50)
+);
+
+-- Create Product Table
+CREATE TABLE Product (
+    PID NUMBER PRIMARY KEY,
+    Pname VARCHAR2(50),
+    Price NUMBER,
+    Category VARCHAR2(50)
+);
+
+-- Create Customer Table
+CREATE TABLE Customer (
+    CID NUMBER PRIMARY KEY,
+    Cname VARCHAR2(50),
+    Cust_City VARCHAR2(50),
+    Cust_State VARCHAR2(50)
+);
+
+-- Create TimeLine Table
+CREATE TABLE TimeLine (
+    TID NUMBER PRIMARY KEY,
+    SaleDate DATE,
+    SaleDay VARCHAR2(10),
+    Month VARCHAR2(20),
+    Year NUMBER
+);
+
+-- Create Sales Table
+CREATE TABLE Sales (
+    CID NUMBER,
+    LID NUMBER,
+    TID NUMBER,
+    PID NUMBER,
+    Quantity NUMBER,
+    FOREIGN KEY (CID) REFERENCES Customer(CID),
+    FOREIGN KEY (LID) REFERENCES Location(LID),
+    FOREIGN KEY (TID) REFERENCES TimeLine(TID),
+    FOREIGN KEY (PID) REFERENCES Product(PID)
+);
+
+-- Insert values into Location Table
+INSERT INTO Location VALUES (1, 'CityA', 'StateA', 'CountryA');
+INSERT INTO Location VALUES (2, 'CityB', 'StateB', 'CountryB');
+
+-- Insert values into Product Table
+INSERT INTO Product VALUES (1, 'ProductA', 20.99, 'CategoryA');
+INSERT INTO Product VALUES (2, 'ProductB', 15.50, 'CategoryB');
+
+-- Insert values into Customer Table
+INSERT INTO Customer VALUES (1, 'CustomerA', 'CityA', 'StateA');
+INSERT INTO Customer VALUES (2, 'CustomerB', 'CityB', 'StateB');
+
+-- Insert values into TimeLine Table
+INSERT INTO TimeLine VALUES (1, TO_DATE('2023-01-15', 'YYYY-MM-DD'), 'Monday', 'January', 2023);
+INSERT INTO TimeLine VALUES (2, TO_DATE('2023-02-01', 'YYYY-MM-DD'), 'Wednesday', 'February', 2023);
+
+-- Insert values into Sales Table
+INSERT INTO Sales VALUES (1, 1, 1, 1, 5);
+INSERT INTO Sales VALUES (2, 2, 2, 2, 3);
+
+SELECT t.Month, p.Category, SUM(s.Quantity) AS TotalSales
+FROM Sales s
+JOIN Product p ON s.PID = p.PID
+JOIN TimeLine t ON s.TID = t.TID
+GROUP BY ROLLUP(t.Month, p.Category);
+

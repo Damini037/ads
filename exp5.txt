@@ -1,0 +1,43 @@
+CREATE TABLE Employees (
+    EmployeeID NUMBER PRIMARY KEY,
+    EmployeeName VARCHAR2(50),
+    Company VARCHAR2(50),
+    Salary NUMBER
+);
+
+
+INSERT INTO Employees (EmployeeID, EmployeeName, Company, Salary)
+VALUES (1, 'John Doe', 'TCS', 60000);
+
+INSERT INTO Employees (EmployeeID, EmployeeName, Company, Salary)
+VALUES (2, 'Jane Smith', 'TCS', 70000);
+
+INSERT INTO Employees (EmployeeID, EmployeeName, Company, Salary)
+VALUES (3, 'Bob Johnson', 'Infosys', 55000);
+
+
+
+CREATE OR REPLACE FUNCTION CountEmployeesForTCS
+RETURN NUMBER IS
+    employee_count NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO employee_count
+    FROM Employees
+    WHERE Company = 'TCS' AND Salary > 50000;
+
+    RETURN employee_count;
+END;
+/
+
+
+
+
+-- Example of calling the function
+DECLARE
+    total_employees NUMBER;
+BEGIN
+    total_employees := CountEmployeesForTCS;
+    DBMS_OUTPUT.PUT_LINE('Number of employees working for TCS with salary > 50000: ' || total_employees);
+END;
+/
